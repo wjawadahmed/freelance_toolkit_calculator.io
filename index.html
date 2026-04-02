@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freelance Income Toolkit — Calculator + Roadmap + Rate Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0e0c09;--cream:#faf7f2;--warm:#f0ebe0;
+  --accent:#c8873a;--green:#2d5a3d;--muted:#7a7062;
+  --border:rgba(14,12,9,0.12);--surface:#ffffff;
+  --bg:#f5f2ec;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --ink:#f0ece4;--cream:#1a1813;--warm:#201e19;
+    --accent:#d4924a;--green:#4a8a5d;--muted:#9a9080;
+    --border:rgba(240,236,228,0.12);--surface:#242019;
+    --bg:#161410;
+  }
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.7;min-height:100vh}
+
+/* HEADER */
+header{background:var(--cream);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;backdrop-filter:blur(8px)}
+.logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;letter-spacing:-0.02em}
+.logo span{color:var(--accent)}
+.header-badge{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+
+/* HERO BAND */
+.hero-band{background:var(--ink);color:var(--cream);padding:3rem 2rem;text-align:center}
+.hero-band h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:700;line-height:1.1;margin-bottom:0.75rem}
+.hero-band h1 em{font-style:italic;color:var(--accent)}
+.hero-band p{font-size:1rem;opacity:0.6;font-weight:300;max-width:520px;margin:0 auto}
+
+/* MAIN LAYOUT */
+.container{max-width:920px;margin:0 auto;padding:2rem 1.5rem}
+
+/* TABS */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.75rem;background:var(--cream);padding:6px;border-radius:10px;border:1px solid var(--border)}
+.tab{padding:9px 18px;border-radius:7px;font-size:13px;cursor:pointer;background:transparent;color:var(--muted);border:none;font-family:'DM Sans',sans-serif;font-weight:400;transition:all .15s;flex:1;text-align:center;min-width:100px}
+.tab.active{background:var(--ink);color:var(--cream);font-weight:500}
+.section{display:none}.section.active{display:block}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.card-title{font-size:15px;font-weight:500;margin-bottom:1.25rem;color:var(--ink)}
+
+/* METRICS */
+.metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;margin-bottom:1.25rem}
+.metric{background:var(--warm);border-radius:8px;padding:1rem;text-align:center}
+.metric .label{font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase}
+.metric .val{font-size:24px;font-weight:500;color:var(--ink);font-family:'Playfair Display',serif}
+.metric .sub{font-size:11px;color:var(--muted);margin-top:2px}
+.metric.highlight-metric{background:var(--ink)}
+.metric.highlight-metric .label{color:rgba(255,255,255,0.5)}
+.metric.highlight-metric .val{color:var(--accent)}
+.metric.highlight-metric .sub{color:rgba(255,255,255,0.4)}
+
+/* SLIDERS */
+.slider-row{display:flex;align-items:center;gap:14px;margin-bottom:1rem}
+.slider-row label{font-size:13px;color:var(--muted);min-width:170px;flex-shrink:0}
+.slider-row input[type=range]{flex:1;accent-color:var(--accent)}
+.slider-row .out{font-size:14px;font-weight:500;min-width:72px;text-align:right;color:var(--ink)}
+
+/* RESULT BOX */
+.result-box{background:var(--warm);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:12px 16px;margin-top:10px;font-size:14px;font-weight:500;color:var(--ink)}
+
+/* SECTION HEADINGS */
+.sec-label{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;line-height:1.15;margin-bottom:1rem;color:var(--ink)}
+
+/* TABLES */
+table{width:100%;font-size:13px;border-collapse:collapse}
+td,th{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left}
+th{font-weight:500;color:var(--muted);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;background:var(--warm)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--warm)}
+
+/* BADGES */
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 9px;border-radius:5px;letter-spacing:0.04em}
+.b-green{background:rgba(45,90,61,0.12);color:var(--green)}
+.b-blue{background:rgba(24,95,165,0.1);color:#185FA5}
+.b-amber{background:rgba(200,135,58,0.12);color:var(--accent)}
+.b-purple{background:rgba(83,74,183,0.1);color:#534AB7}
+.b-coral{background:rgba(153,60,29,0.1);color:#993C1D}
+
+/* STEPS */
+.step{display:flex;gap:14px;margin-bottom:1.25rem}
+.step-num{width:30px;height:30px;border-radius:50%;background:var(--warm);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:2px;color:var(--accent)}
+.step-body h4{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* SKILL TABS (inner) */
+.skill-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.skill-tab{padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;background:var(--warm);color:var(--muted);border:1px solid var(--border);font-family:'DM Sans',sans-serif;transition:all .15s}
+.skill-tab.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+
+/* PLATFORM GRID */
+.platform-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.platform-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.platform-card h3{font-size:15px;font-weight:500;margin-bottom:8px}
+.platform-meta{font-size:12px;color:var(--muted);margin-bottom:8px;display:flex;gap:12px}
+.platform-tip{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ACTION PLAN */
+.action-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem;margin-bottom:.875rem}
+.action-week{font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.action-title{font-size:14px;font-weight:500;margin-bottom:8px}
+.action-tasks{font-size:13px;color:var(--muted);line-height:1.8}
+
+/* MILESTONE */
+.milestone{margin-bottom:14px}
+.milestone-header{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px}
+.milestone-header span:first-child{font-weight:500}
+.milestone-header span:last-child{color:var(--muted)}
+.milestone-note{font-size:11px;color:var(--muted);margin-bottom:5px}
+.prog{height:6px;border-radius:3px;background:var(--warm);overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;background:var(--green);transition:width .6s ease}
+
+/* FOOTER */
+footer{text-align:center;padding:3rem 1rem;font-size:12px;color:var(--muted);border-top:1px solid var(--border);margin-top:2rem}
+footer strong{color:var(--ink)}
+
+@media(max-width:600px){
+  .slider-row{flex-wrap:wrap}
+  .slider-row label{min-width:100%;margin-bottom:-6px}
+  .slider-row .out{min-width:50px}
+  .tab{font-size:12px;padding:8px 10px;min-width:80px}
+  header{padding:.875rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Freelance <span>Toolkit</span></div>
+  <div class="header-badge">Free Tool</div>
+</header>
+
+<div class="hero-band">
+  <h1>From zero to <em>$1,000/month</em><br>freelancing in 90 days</h1>
+  <p>Calculate your income, find your rate, pick your skill, and follow the exact plan.</p>
+</div>
+
+<div class="container">
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('calc')">Calculator</div>
+    <div class="tab" onclick="switchTab('rates')">Rate guide</div>
+    <div class="tab" onclick="switchTab('skills')">Skill roadmap</div>
+    <div class="tab" onclick="switchTab('platforms')">Platforms</div>
+    <div class="tab" onclick="switchTab('plan')">90-day plan</div>
+  </div>
+
+  <!-- ── CALCULATOR ─────────────────────────────────────────────────────── -->
+  <div id="calc" class="section active">
+    <div class="sec-label">Section 01</div>
+    <div class="sec-title">Freelance income calculator</div>
+
+    <div class="card">
+      <div class="card-title">Your working setup</div>
+      <div class="slider-row"><label>Hourly rate (USD)</label><input type="range" id="rate" min="5" max="300" value="40" step="1" oninput="calcIncome()"><span class="out" id="rateOut">$40</span></div>
+      <div class="slider-row"><label>Hours per day</label><input type="range" id="hrs" min="1" max="10" value="4" step="1" oninput="calcIncome()"><span class="out" id="hrsOut">4 hrs</span></div>
+      <div class="slider-row"><label>Working days / week</label><input type="range" id="days" min="1" max="7" value="5" step="1" oninput="calcIncome()"><span class="out" id="daysOut">5 days</span></div>
+      <div class="slider-row"><label>Client utilization %</label><input type="range" id="util" min="20" max="100" value="70" step="5" oninput="calcIncome()"><span class="out" id="utilOut">70%</span></div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric"><div class="label">Weekly</div><div class="val" id="wkly">$560</div><div class="sub">after utilization</div></div>
+      <div class="metric"><div class="label">Monthly</div><div class="val" id="mnth">$2,427</div><div class="sub">avg 4.33 weeks</div></div>
+      <div class="metric highlight-metric"><div class="label">Yearly</div><div class="val" id="yrly">$29,120</div><div class="sub">50 working weeks</div></div>
+      <div class="metric"><div class="label">Income tier</div><div class="val" id="tier" style="font-size:18px">Starter</div><div class="sub" id="tierSub">raise rate to grow</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Goal calculator — what rate do I need?</div>
+      <div class="slider-row"><label>Monthly income goal (USD)</label><input type="range" id="goal" min="500" max="20000" value="3000" step="100" oninput="calcGoal()"><span class="out" id="goalOut">$3,000</span></div>
+      <div class="result-box" id="goalResult"></div>
+    </div>
+  </div>
+
+  <!-- ── RATES ──────────────────────────────────────────────────────────── -->
+  <div id="rates" class="section">
+    <div class="sec-label">Section 02</div>
+    <div class="sec-title">Freelance rate guide</div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <table>
+        <thead><tr><th>Skill</th><th>Beginner</th><th>Mid-level</th><th>Expert</th><th>Demand</th></tr></thead>
+        <tbody id="rateTable"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">How to price yourself</div>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Research 5 competitors</h4><p>Search your skill on Upwork/Fiverr, note the rates of the top 5 profiles at your experience level.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Start 20% below mid-level</h4><p>Get your first 3–5 reviews, then raise to mid-level. Never work for free.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Raise rate every 90 days</h4><p>After reviews come in, increase by $5–15/hr every quarter without exception.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Switch to project pricing</h4><p>At mid-level, stop selling hours. Package your service — you earn more as you get faster.</p></div></div>
+    </div>
+  </div>
+
+  <!-- ── SKILLS ─────────────────────────────────────────────────────────── -->
+  <div id="skills" class="section">
+    <div class="sec-label">Section 03</div>
+    <div class="sec-title">90-day skill roadmaps</div>
+    <div class="skill-tabs">
+      <div class="skill-tab active" onclick="switchSkill('writing')">Copywriting</div>
+      <div class="skill-tab" onclick="switchSkill('design')">Graphic design</div>
+      <div class="skill-tab" onclick="switchSkill('dev')">Web development</div>
+      <div class="skill-tab" onclick="switchSkill('va')">Virtual assistant</div>
+      <div class="skill-tab" onclick="switchSkill('video')">Video editing</div>
+    </div>
+    <div id="skillContent"></div>
+  </div>
+
+  <!-- ── PLATFORMS ──────────────────────────────────────────────────────── -->
+  <div id="platforms" class="section">
+    <div class="sec-label">Section 04</div>
+    <div class="sec-title">Platform comparison guide</div>
+    <div class="card" style="background:var(--ink);border-color:transparent;margin-bottom:1.5rem">
+      <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7"><strong style="color:var(--accent)">Strategy:</strong> Start on ONE platform only. Master it before diversifying. Most top earners get 80% of their income from a single platform.</p>
+    </div>
+    <div class="platform-grid" id="platformGrid"></div>
+  </div>
+
+  <!-- ── ACTION PLAN ────────────────────────────────────────────────────── -->
+  <div id="plan" class="section">
+    <div class="sec-label">Section 05</div>
+    <div class="sec-title">Your 90-day action plan</div>
+    <div id="actionPlan"></div>
+    <div class="card" style="margin-top:1.5rem">
+      <div class="card-title">Income milestones</div>
+      <div id="milestones"></div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <strong>Freelance Income Toolkit</strong> — Free tool. Share it with anyone who wants to start freelancing.<br><br>
+  Built with care · 2026
+</footer>
+
+<script>
+// ── CALCULATOR ──────────────────────────────────────────────────────────────
+function calcIncome(){
+  const r=+document.getElementById('rate').value;
+  const h=+document.getElementById('hrs').value;
+  const d=+document.getElementById('days').value;
+  const u=+document.getElementById('util').value/100;
+  document.getElementById('rateOut').textContent='$'+r;
+  document.getElementById('hrsOut').textContent=h+' hrs';
+  document.getElementById('daysOut').textContent=d+' days';
+  document.getElementById('utilOut').textContent=Math.round(u*100)+'%';
+  const wk=Math.round(r*h*d*u);
+  const mn=Math.round(wk*4.33);
+  const yr=Math.round(wk*50);
+  document.getElementById('wkly').textContent='$'+wk.toLocaleString();
+  document.getElementById('mnth').textContent='$'+mn.toLocaleString();
+  document.getElementById('yrly').textContent='$'+yr.toLocaleString();
+  let tier='Starter',sub='raise your rate to grow';
+  if(mn>=10000){tier='Elite';sub='top 1% earner';}
+  else if(mn>=5000){tier='Expert';sub='strong full-time income';}
+  else if(mn>=2000){tier='Growing';sub='solid part-time income';}
+  else if(mn>=1000){tier='Building';sub='first milestone reached';}
+  document.getElementById('tier').textContent=tier;
+  document.getElementById('tierSub').textContent=sub;
+  calcGoal();
+}
+function calcGoal(){
+  const g=+document.getElementById('goal').value;
+  const h=+document.getElementById('hrs').value;
+  const d=+document.getElementById('days').value;
+  const u=+document.getElementById('util').value/100;
+  const r=+document.getElementById('rate').value;
+  document.getElementById('goalOut').textContent='$'+g.toLocaleString();
+  const needed=Math.ceil(g/(4.33*h*d*u));
+  let msg='';
+  if(needed<=r){msg='You already reach $'+g.toLocaleString()+'/mo at your current rate.';}
+  else{msg='To earn $'+g.toLocaleString()+'/mo → charge $'+needed+'/hr (keeping your current hours & days).';}
+  document.getElementById('goalResult').textContent=msg;
+}
+
+// ── TABS ─────────────────────────────────────────────────────────────────────
+function switchTab(id){
+  document.querySelectorAll('.tabs .tab').forEach((t,i)=>{
+    t.classList.toggle('active',['calc','rates','skills','platforms','plan'][i]===id);
+  });
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── RATE TABLE ────────────────────────────────────────────────────────────────
+const rates=[
+  {s:'Copywriting / content writing',b:'$15–25',m:'$35–65',e:'$80–150',d:'Very high',dc:'b-green'},
+  {s:'Graphic design (logos, branding)',b:'$15–30',m:'$40–80',e:'$90–200',d:'High',dc:'b-blue'},
+  {s:'Web development (WordPress)',b:'$20–35',m:'$45–90',e:'$100–200',d:'Very high',dc:'b-green'},
+  {s:'React / frontend development',b:'$30–50',m:'$60–110',e:'$120–250',d:'Very high',dc:'b-green'},
+  {s:'Video editing',b:'$15–25',m:'$35–70',e:'$80–150',d:'High',dc:'b-blue'},
+  {s:'Social media management',b:'$10–20',m:'$25–50',e:'$60–120',d:'High',dc:'b-blue'},
+  {s:'SEO specialist',b:'$20–35',m:'$50–90',e:'$100–200',d:'High',dc:'b-blue'},
+  {s:'Virtual assistant',b:'$8–15',m:'$20–35',e:'$40–80',d:'Very high',dc:'b-green'},
+  {s:'AI prompt engineer',b:'$25–40',m:'$55–100',e:'$120–250',d:'Exploding',dc:'b-amber'},
+  {s:'Data entry / research',b:'$5–12',m:'$15–25',e:'$30–50',d:'Medium',dc:'b-purple'},
+];
+const tb=document.getElementById('rateTable');
+rates.forEach(r=>{
+  tb.innerHTML+=`<tr><td>${r.s}</td><td>${r.b}</td><td>${r.m}</td><td>${r.e}</td><td><span class="badge ${r.dc}">${r.d}</span></td></tr>`;
+});
+
+// ── SKILLS ────────────────────────────────────────────────────────────────────
+const skills={
+  writing:{title:'Copywriting & Content Writing',income:'$500–2,000/month by week 12',weeks:[
+    {w:'Week 1–2',t:'Learn the basics',tasks:['Study the AIDA formula (Attention, Interest, Desire, Action)','Analyze 10 successful landing pages and email subject lines','Watch free copywriting tutorials on YouTube (2 hrs/day)','Practice rewriting 3 bad ads into compelling ones']},
+    {w:'Week 3–4',t:'Build your portfolio',tasks:['Write 3 sample blog posts (800–1,200 words each)','Write 2 sample 5-email sequences for fictional products','Create a free portfolio on Contently or Notion','Write 1 sample landing page for a fictional brand']},
+    {w:'Week 5–8',t:'Land first paying clients',tasks:['Create Upwork or Fiverr profile with portfolio attached','Apply to 10 jobs daily with fully custom proposals','Accept first 3 projects at $50–100 to collect reviews','Ask for a 5-star review within 24 hours of delivery']},
+    {w:'Week 9–12',t:'Scale your income',tasks:['Raise rate after 5 reviews','Specialize in one niche: SaaS, e-commerce, or health','Reach out to 5 content agencies for white-label work','Target $500–1,500/month by end of week 12']},
+  ],tools:['Grammarly','Hemingway App','Google Docs','Jasper AI','SurferSEO']},
+  design:{title:'Graphic Design',income:'$400–1,500/month by week 12',weeks:[
+    {w:'Week 1–2',t:'Learn design fundamentals',tasks:['Complete Canva Design School (free at canva.com/learn)','Study color theory: complementary, analogous, triadic','Learn typography: hierarchy, pairing, readability','Analyze 20 memorable logos — what makes them work?']},
+    {w:'Week 3–4',t:'Build your portfolio',tasks:['Design 5 logos for fictional companies (different industries)','Create 3 complete brand kits (logo + colors + fonts)','Design 10 social media post templates','Upload everything to Behance (free portfolio)']},
+    {w:'Week 5–8',t:'Get first paid projects',tasks:['List logo packages on Fiverr starting at $30–50','Apply on 99designs for design contests','Message 10 local businesses with outdated logos','Collect 5 reviews before raising prices']},
+    {w:'Week 9–12',t:'Specialize and scale',tasks:['Choose a niche: restaurants, e-commerce, or social media','Raise prices to $80–150/logo after reviews','Target Etsy and Shopify store owners for brand kits','Aim for $400–1,000/month through recurring clients']},
+  ],tools:['Canva Pro','Figma (free)','Adobe Express','Behance','Coolors']},
+  dev:{title:'Web Development (WordPress)',income:'$600–2,500/month by week 12',weeks:[
+    {w:'Week 1–2',t:'Learn WordPress',tasks:['Sign up at InfinityFree.net — build a free test site','Install Elementor page builder — learn drag-and-drop layout','Watch "WordPress Full Course" on YouTube (5–6 hours, free)','Build 1 practice site: a restaurant or personal portfolio']},
+    {w:'Week 3–4',t:'Build your portfolio',tasks:['Build 3 niche sites: service business, store, and portfolio','Screenshot before/after versions for case studies','Buy a cheap domain (~$10/yr) and host your own portfolio','Write brief case studies for each site you build']},
+    {w:'Week 5–8',t:'Find first paying clients',tasks:['Search Google Maps for local businesses with bad websites','Send 10 outreach messages per day offering a free quote','Create a Fiverr gig: "Professional WordPress website in 5 days"','Charge $150–300 for first projects to get reviews fast']},
+    {w:'Week 9–12',t:'Build recurring income',tasks:['Offer monthly maintenance packages at $50–100/month/site','Learn basic on-page SEO to add it as an upsell','Target WooCommerce projects for $500+ work','Aim for $600–1,500/month by week 12']},
+  ],tools:['WordPress','Elementor (free)','Astra Theme','WPForms','Rank Math SEO']},
+  va:{title:'Virtual Assistant',income:'$300–1,200/month by week 12',weeks:[
+    {w:'Week 1–2',t:'Learn core VA tasks',tasks:['Master Google Workspace: Gmail, Docs, Sheets, Calendar','Learn Canva basics for creating social media posts','Study inbox management and calendar scheduling','Practice data entry and basic research tasks']},
+    {w:'Week 3–4',t:'Create your offer',tasks:['List 10 tasks you can confidently do today','Set a starter rate: $10–15/hr','Create a simple services page in Notion or Google Docs','Write a short professional bio for your profiles']},
+    {w:'Week 5–8',t:'Find your first clients',tasks:['Join VA Facebook groups and post your services','Apply on Belay, Zirtual, and Time Etc','Offer a free trial week to 2–3 clients at reduced rate','Get written testimonials from every client you help']},
+    {w:'Week 9–12',t:'Build retainer income',tasks:['Convert good clients to monthly retainers ($300–600/month)','Specialize: real estate VA, social media VA, or e-commerce','Learn Notion, Asana, or HubSpot to increase your rate','Aim for 2–3 retainer clients by week 12']},
+  ],tools:['Google Workspace','Notion','Asana','Calendly','LastPass']},
+  video:{title:'Video Editing',income:'$500–2,000/month by week 12',weeks:[
+    {w:'Week 1–2',t:'Learn video editing',tasks:['Download DaVinci Resolve (free, professional quality)','Complete 10 hours of YouTube tutorials (Justin Odisho channel)','Edit 3 practice videos using free stock footage','Learn: cuts, transitions, color grading, text overlays']},
+    {w:'Week 3–4',t:'Build a reel',tasks:['Edit 5 short-form videos with captions, music, and cuts','Post samples as unlisted on YouTube for portfolio links','Create a 60-second showreel of your best work','Focus on: talking head videos, product demos, or vlogs']},
+    {w:'Week 5–8',t:'Get first clients',tasks:['Message YouTubers with 1k–50k subscribers on Instagram','List a Fiverr gig: "YouTube video editor — fast turnaround"','Offer $25–50/video to start — build reviews fast','Deliver within 24 hours to stand out from competitors']},
+    {w:'Week 9–12',t:'Scale and specialize',tasks:['Add captions, thumbnails, and YouTube Shorts as upsells','Target TikTok creators and content agencies','Raise rate to $75–150/video after 10 reviews','Aim to edit 15–30 videos/month for $500–2,000/month']},
+  ],tools:['DaVinci Resolve','CapCut','Adobe Premiere','Descript','Epidemic Sound']},
+};
+
+function switchSkill(key){
+  document.querySelectorAll('.skill-tab').forEach((t,i)=>{
+    t.classList.toggle('active',['writing','design','dev','va','video'][i]===key);
+  });
+  renderSkill(key);
+}
+function renderSkill(key){
+  const s=skills[key];
+  let html=`<div class="card" style="margin-bottom:.5rem;background:var(--ink);border-color:transparent"><p style="color:rgba(255,255,255,0.55);font-size:14px"><strong style="color:var(--accent)">Expected: </strong><span style="color:rgba(255,255,255,0.8)">${s.income}</span></p></div>`;
+  s.weeks.forEach(w=>{
+    html+=`<div class="card"><div style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:4px">${w.w}</div><div style="font-size:15px;font-weight:500;margin-bottom:12px">${w.t}</div><ul style="list-style:none;padding:0">${w.tasks.map(t=>`<li style="font-size:13px;color:var(--muted);padding:5px 0;border-bottom:1px solid var(--border);display:flex;gap:10px"><span style="color:var(--accent);flex-shrink:0">→</span>${t}</li>`).join('')}</ul></div>`;
+  });
+  html+=`<div class="card"><div style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Tools to learn</div><div>${s.tools.map(t=>`<span class="badge b-purple" style="margin:3px">${t}</span>`).join('')}</div></div>`;
+  document.getElementById('skillContent').innerHTML=html;
+}
+renderSkill('writing');
+
+// ── PLATFORMS ─────────────────────────────────────────────────────────────────
+const plats=[
+  {name:'Upwork',fee:'10–20%',comp:'Medium',best:'High-skill & hourly work',tip:'Best for long-term contracts. Write custom proposals every time. Apply to 10 jobs/day.'},
+  {name:'Fiverr',fee:'20%',comp:'High',best:'Productized services',tip:'Package your service as a fixed-price gig. $30–100 gigs sell best for beginners.'},
+  {name:'Toptal',fee:'0%',comp:'Very low',best:'Top 3% developers',tip:'Rigorous screening but elite pay ($80–200/hr). Requires proven track record.'},
+  {name:'PeoplePerHour',fee:'3.5–20%',comp:'Medium',best:'European clients',tip:'Strong for EU clients who pay well. Less competition than Upwork.'},
+  {name:'LinkedIn',fee:'0%',comp:'Low',best:'B2B consulting',tip:'Direct outreach + posting content = high-quality inbound. Best for $50+/hr rates.'},
+  {name:'Direct clients',fee:'0%',comp:'You control it',best:'Any niche',tip:'The ultimate goal. No fees, no competition. Build an email list and website over time.'},
+];
+const pg=document.getElementById('platformGrid');
+plats.forEach(p=>{
+  pg.innerHTML+=`<div class="platform-card"><h3>${p.name}</h3><div class="platform-meta"><span>Fee: <strong>${p.fee}</strong></span><span>Competition: <strong>${p.comp}</strong></span></div><div style="font-size:11px;margin-bottom:8px"><span class="badge b-blue">${p.best}</span></div><div class="platform-tip">${p.tip}</div></div>`;
+});
+
+// ── ACTION PLAN ───────────────────────────────────────────────────────────────
+const weeks=[
+  {w:'Week 1–2',t:'Foundation',color:'#c8873a',tasks:'Pick your skill. Spend 2 hrs/day learning. Set up Upwork, Fiverr, and PayPal or Wise. Create a free portfolio page. Complete 1 practice project by end of week 2.'},
+  {w:'Week 3–4',t:'Portfolio',color:'#185FA5',tasks:'Build 3–5 portfolio samples (spec work is fine). Write your Upwork bio and Fiverr gig. Join 3 Facebook groups in your niche. Connect with 20 potential clients on LinkedIn.'},
+  {w:'Week 5–6',t:'First client',color:'#2d5a3d',tasks:'Apply to 10 jobs every single day. Follow up on proposals after 48 hours. Accept your first project even at a low rate — you need the review. Over-deliver and ask for review immediately.'},
+  {w:'Week 7–8',t:'First $500',color:'#534AB7',tasks:'Complete 5–10 projects with excellent reviews. Collect at least 5 positive reviews. Raise your rate by $5–10. Track every dollar earned in a spreadsheet.'},
+  {w:'Week 9–10',t:'Build your system',color:'#993C1D',tasks:'Create proposal templates you can customize quickly. Build a simple contract template. Set up free invoicing with Wave. Block 2 hours each morning for client acquisition.'},
+  {w:'Week 11–12',t:'$1,000/month',color:'#0F6E56',tasks:'Land 2–3 recurring clients. Pitch monthly retainer packages. Apply only to higher-paying jobs. Celebrate your milestone — then set your next goal.'},
+];
+const ap=document.getElementById('actionPlan');
+weeks.forEach(w=>{
+  ap.innerHTML+=`<div class="action-card" style="border-left-color:${w.color}"><div class="action-week">${w.w}</div><div class="action-title">${w.t}</div><div class="action-tasks">${w.tasks}</div></div>`;
+});
+
+const ms=[
+  {l:'First $1 earned',t:'Week 3–5',n:'Proof of concept. Now replicate.',p:8},
+  {l:'$100 total earned',t:'Week 5–7',n:'The system works. Optimize proposals.',p:20},
+  {l:'$500/month',t:'Month 2',n:'Part-time income unlocked.',p:42},
+  {l:'$1,000/month',t:'Month 3',n:'The main goal. Achievable by anyone.',p:62},
+  {l:'$3,000/month',t:'Month 6',n:'Full-time freelance territory.',p:82},
+  {l:'$5,000+/month',t:'Month 12',n:'Specialize + raise rates consistently.',p:100},
+];
+const ml=document.getElementById('milestones');
+ms.forEach(m=>{
+  ml.innerHTML+=`<div class="milestone"><div class="milestone-header"><span>${m.l}</span><span>${m.t}</span></div><div class="milestone-note">${m.n}</div><div class="prog"><div class="prog-fill" style="width:${m.p}%"></div></div></div>`;
+});
+
+calcIncome();
+
+// Animate progress bars on load
+setTimeout(()=>{
+  document.querySelectorAll('.prog-fill').forEach(el=>{
+    const w=el.style.width;el.style.width='0';
+    setTimeout(()=>{el.style.width=w;},100);
+  });
+},300);
+</script>
+</body>
+</html>
